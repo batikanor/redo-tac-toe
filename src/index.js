@@ -3,12 +3,12 @@ import ReactDOM from 'react-dom';
 import './index.css';
 
 class Square extends React.Component {
-  constructor(props){
-    super(props);
-    this.state = {
-      value: null,
-    };
-  }
+  // constructor(props){
+  //   super(props);
+  //   this.state = {
+  //     value: null,
+  //   };
+  // }
   render() {
     return (
       // <button className="square" onClick={function(){
@@ -18,9 +18,9 @@ class Square extends React.Component {
       //   () => alert('click');
       <button className="square" 
       onClick={
-          () => this.setState({value: 'X'}) //By calling this.setState from an onClick handler in the Square’s render method, we tell React to re-render that Square whenever its <button> is clicked. 
+          () => this.props.onClick()
         }>
-        {this.state.value}
+        {this.props.value}
       </button>
     );
   }
@@ -35,8 +35,19 @@ class Board extends React.Component {
     }
   }
   
+  handleClick(i) {
+    const squares = this.state.squares.slice();
+    squares[i] = 'X';
+    this.setState({squares: squares});
+
+  }
+
   renderSquare(i) { 
-    return <Square value={this.state.squares[i]} />;
+    return (
+      <Square value={this.state.squares[i]} 
+      onClick={() => this.handleClick(i)}
+      />
+     );
   }
 
   render() {
